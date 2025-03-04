@@ -1,14 +1,19 @@
-// home_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
 import 'controller/news_controller.dart';
 import 'drawer_menu.dart';
+import 'model/database_model.dart';
 import 'news_page_details.dart';
 
 class HomePage extends StatelessWidget {
   final NewsController controller = Get.put(NewsController());
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +72,7 @@ class HomePage extends StatelessWidget {
                     return Card(
                       child: InkWell(
                         onTap: () {
+                          controller.addToHistory(news); // Add news to history
                           Get.to(() => NewsDetailPage(news: news));
                         },
                         child: Padding(
@@ -75,8 +81,8 @@ class HomePage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Image.network(
-                                news.imageUrl.isNotEmpty
-                                    ? news.imageUrl
+                                news.image.isNotEmpty
+                                    ? news.image
                                     : 'https://picsum.photos/100/100',
                                 width: double.infinity,
                                 height: 200,

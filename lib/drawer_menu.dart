@@ -1,15 +1,26 @@
-// drawer_menu.dart
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:news_app/reading_history.dart';
+
+import 'controller/theme controller.dart';
+
 
 class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    // GetX ThemeController instance
+    final ThemeController themeController = Get.find<ThemeController>();
 
+    return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(child: Text("Menu")),
+          DrawerHeader(
+            child: Text("Menu"),
+            decoration: BoxDecoration(
+              color: Colors.blue, // Set the background color here
+            ),
+          ),
           ListTile(
             title: Text('Home'),
             onTap: () {
@@ -20,14 +31,23 @@ class DrawerMenu extends StatelessWidget {
           ListTile(
             title: Text('Reading History'),
             onTap: () {
-              // Navigate to history
-              Navigator.pop(context);
+              Get.to(() => HistoryPage());
             },
           ),
           ListTile(
             title: Text('Theme'),
+            trailing: Obx(() {
+              // Listening for changes in theme mode
+              return Switch(
+                value: themeController.isDarkMode.value,
+                onChanged: (bool value) {
+                  themeController.toggleTheme(); // Toggle theme on switch
+                },
+              );
+            }),
             onTap: () {
-              // Implement theme change logic
+
+              themeController.toggleTheme();
               Navigator.pop(context);
             },
           ),
